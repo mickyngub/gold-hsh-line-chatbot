@@ -95,4 +95,6 @@ const reply = (reply_token, msg) => {
 module.exports = {
   getTime: getTime,
   getGoldPrice: getGoldPrice,
+  broadcast: broadcast,
+  reply: reply,
 };
