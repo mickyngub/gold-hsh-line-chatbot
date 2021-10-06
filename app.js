@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 4000;
 
-const { getTime, getGoldPrice } = require("./helpful_functions");
+const { getGoldPrice, broadcast, reply } = require("./helpful_functions");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
