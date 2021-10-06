@@ -65,6 +65,33 @@ const broadcast = (goldPrice) => {
   );
 };
 
+const reply = (reply_token, msg) => {
+  let headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + process.env.CHANNEL_ACCESS_TOKEN,
+  };
+  let body;
+  if (msg === "helping") {
+    body = JSON.stringify({
+      replyToken: reply_token,
+      messages: [
+        {
+          type: "text",
+          text: `🤖GOLD_HSH_PRICE_BOT by @mickyngub has 2 functionalities
+                    \r\n1. User can type "gold" in the chat to get the current HSH 96.50 Gold price⛽
+                    \r\n2. The bot will send the HSH 96.50 Gold price with no push notification every 5 minutes📢
+                    \r\nFor further information please contact me @mickyngub in Twitter
+      
+                    \r\n🤖GOLD_HSH_PRICE_BOT by @mickyngub มีสองฟังก์ชั่นหลัก
+                    \r\n1. คุณสามารถพิมพ์คำว่า "gold" ลงในช่องแชทเพื่อเชคราคาทองฮั่วเซ่งเฮง 96.50% ในขณะนี้⛽
+                    \r\n3. บอทจะคอยเชคและส่งราคาทองฮั่วเซ่งเฮง 96.50% ให้คุณทุกๆสิบนาที โดยบอทจะส่งข้อความแจ้งเตือนแบบไม่มีเสียง📢
+                    \r\nหากมีคำถามเพิ่มเติมสามารถติดต่อผมได้ที่ @mickyngub ในทวิตเตอร์
+                    `,
+        },
+      ],
+    });
+  }
+};
 module.exports = {
   getTime: getTime,
   getGoldPrice: getGoldPrice,
