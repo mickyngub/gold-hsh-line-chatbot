@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const goldPriceNoti = setInterval(async () => {
   let goldPrice = await getGoldPrice();
   broadcast(goldPrice);
-}, 10000);
+}, 5000);
 
 app.post("/webhook", async (req, res) => {
   let reply_token = req.body.events[0].replyToken;

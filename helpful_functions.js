@@ -8,7 +8,7 @@ const getTime = () => {
   let year = date_ob.getFullYear();
   let hours = date_ob.getHours() + 7;
   let minutes = date_ob.getMinutes();
-  let seconds = date_ob.getSeconds();
+  let seconds = ("0" + date_ob.getSeconds()).slice(-2);
   const dateString =
     year +
     "-" +
