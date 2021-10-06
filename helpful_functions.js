@@ -90,7 +90,40 @@ const reply = (reply_token, msg) => {
         },
       ],
     });
+  } else if (msg.Buy) {
+    body = JSON.stringify({
+      replyToken: reply_token,
+      messages: [
+        {
+          type: "text",
+          text: `🥇Current HSH 96.50 Gold Price... \r\nCurrent Time is ${getTime()}\r\n\r\nBuy Price is ${
+            msg.Buy
+          } \r\nSell Price is ${msg.Sell} `,
+        },
+      ],
+    });
+  } else {
+    body = JSON.stringify({
+      replyToken: reply_token,
+      messages: [
+        {
+          type: "text",
+          text: `${msg} is not a command, please type "help" to see all the commands`,
+        },
+      ],
+    });
   }
+
+  request.post(
+    {
+      url: "https://api.line.me/v2/bot/message/reply",
+      headers: headers,
+      body: body,
+    },
+    (err, res, body) => {
+      console.log("status = " + res.statusCode);
+    }
+  );
 };
 module.exports = {
   getTime: getTime,
