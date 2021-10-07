@@ -1,14 +1,13 @@
 require("dotenv").config();
 const express = require("express");
-const bodyParser = require("body-parser");
 const axios = require("axios");
 const app = express();
 const port = process.env.PORT || 4000;
 
 const { getGoldPrice, broadcast, reply } = require("./helpful_functions");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 const goldPriceNoti = setInterval(async () => {
   let goldPrice = await getGoldPrice();
