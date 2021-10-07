@@ -9,6 +9,7 @@ const {
   broadcast,
   reply,
   checkAvailableTime,
+  broadcastMsgToUser,
 } = require("./helpful_functions");
 
 app.use(express.urlencoded({ extended: false }));
@@ -38,7 +39,7 @@ const goldPriceNoti15mins = setInterval(async () => {
     console.log("normal broadcast...");
   }
   intPreviousBuyGoldPrice = intBuyGoldPrice;
-}, 30000);
+}, 900000);
 
 //prevent Heroku dyno from sleeping
 const pingAppEvery29mins = setInterval(async () => {
@@ -72,5 +73,7 @@ app.post("/webhook", async (req, res) => {
 app.listen(port, async () => {
   console.log("listening on port...", port);
   await setPreviousGoldPrice();
-  console.log(parseInt(previousGoldPrice.Buy.replace(/,/g, ""), 10));
+  // broadcastMsgToUser(
+  //   "Sorry for the inconvenience, the testing was done. One more functionality has been added. If the price increase or decrease more than 50 baht in the past 15 minutes, the bot will automatically alert users"
+  // );
 });

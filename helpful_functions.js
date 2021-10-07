@@ -1,5 +1,6 @@
 const request = require("request");
 const axios = require("axios");
+const { text } = require("body-parser");
 
 const convertTimezone = (date, tzString) => {
   return new Date(date.toLocaleString("en-US", { timeZone: tzString }));
@@ -54,20 +55,65 @@ const getGoldPrice = async () => {
   }
 };
 
+const broadcastMsgToUser = (msg) => {
+  let headers = {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + process.env.CHANNEL_ACCESS_TOKEN,
+  };
+  body = JSON.stringify({
+    messages: [
+      {
+        type: "text",
+        text: msg,
+      },
+    ],
+    notificationDisabled: false,
+  });
+  request.post(
+    {
+      url: "https://api.line.me/v2/bot/message/broadcast",
+      headers: headers,
+      body: body,
+    },
+    (err, res, body) => {
+      switch (res.statusCode) {
+        case 200:
+          console.log(
+            "status = " +
+              res.statusCode +
+              " Successfully broadcasting messages..."
+          );
+          break;
+        case 400:
+          console.log("status = " + res.statusCode + " bad request");
+          console.log("errors...", err);
+          break;
+        default:
+          console.log("unknown error occurred ", res.statusCode);
+          console.log("errors...", err);
+          break;
+      }
+    }
+  );
+};
+
 const broadcast = (goldPrice, type) => {
   let headers = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + process.env.CHANNEL_ACCESS_TOKEN,
   };
   let textMsg;
+  let notiBoolean = true;
   if (type === "alertUP") {
     textMsg =
-      "💚TESTING TESTING TESTING HSH Gold Price has gone UP more than 10 baht in the last 30 secs!!!...";
+      "💚HSH Gold Price has gone UP more than 50 baht in the last 15 mins!!!...";
+    notiBoolean = false;
   } else if (type === "alertDOWN") {
     textMsg =
-      "💔TESTING TESTING TESTING HSH Gold Price has gone DOWN more than 10 baht in the last 30 secs!!!...";
+      "💔HSH Gold Price has gone DOWN more than 50 baht in the last 15 mins!!!...";
+    notiBoolean = false;
   } else {
-    textMsg = "📢TESTING TESTING TESTING HSH Gold Price Every 30 secs🥇...";
+    textMsg = "📢HSH Gold Price Every 15 mins🥇...";
   }
   body = JSON.stringify({
     messages: [
@@ -78,7 +124,7 @@ const broadcast = (goldPrice, type) => {
         }\r\nSell Price is ${goldPrice.Sell}`,
       },
     ],
-    notificationDisabled: true,
+    notificationDisabled: notiBoolean,
   });
   request.post(
     {
@@ -190,4 +236,5 @@ module.exports = {
   broadcast: broadcast,
   reply: reply,
   checkAvailableTime: checkAvailableTime,
+  broadcastMsgToUser: broadcastMsgToUser,
 };
