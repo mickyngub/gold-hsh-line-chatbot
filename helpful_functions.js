@@ -93,6 +93,7 @@ const reply = (reply_token, msg) => {
         },
       ],
     });
+    log = "successfully sending help instructions....";
   } else if (msg.Buy) {
     body = JSON.stringify({
       replyToken: reply_token,
