@@ -1,14 +1,20 @@
 const request = require("request");
 const axios = require("axios");
 
+const convertTimezone = (date, tzString) => {
+  return new Date(date.toLocaleString("en-US", { timeZone: tzString }));
+};
+
 const getTime = () => {
-  let date_ob = new Date();
-  let date = ("0" + date_ob.getDate()).slice(-2);
-  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-  let year = date_ob.getFullYear();
-  let hours = date_ob.getHours() + 7;
-  let minutes = date_ob.getMinutes();
-  let seconds = ("0" + date_ob.getSeconds()).slice(-2);
+  //This depends on the server, since it runs on HEROKU the time is UTC and needs to convert to GMT+7
+  let date_ob_UTC = new Date();
+  let date_ob_GMT7 = convertTimezone(date_ob_UTC, "Asia/Bangkok");
+  let date = ("0" + date_ob_GMT7.getDate()).slice(-2);
+  let month = ("0" + (date_ob_GMT7.getMonth() + 1)).slice(-2);
+  let year = date_ob_GMT7.getFullYear();
+  let hours = date_ob_GMT7.getHours();
+  let minutes = date_ob_GMT7.getMinutes();
+  let seconds = ("0" + date_ob_GMT7.getSeconds()).slice(-2);
   const dateString =
     year +
     "-" +
