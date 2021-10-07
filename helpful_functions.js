@@ -46,7 +46,7 @@ const broadcast = (goldPrice) => {
     messages: [
       {
         type: "text",
-        text: `📢HSH Gold Price Every 5 mins🥇... \r\nCurrent Time is ${getTime()}\r\nBuy Price is ${
+        text: `📢HSH Gold Price Every 15 mins🥇... \r\nCurrent Time is ${getTime()}\r\nBuy Price is ${
           goldPrice.Buy
         }\r\nSell Price is ${goldPrice.Sell}`,
       },
