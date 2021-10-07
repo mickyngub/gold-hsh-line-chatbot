@@ -31,6 +31,16 @@ const getTime = () => {
   return dateString;
 };
 
+const checkAvailableTime = () => {
+  let date_ob_UTC = new Date();
+  let date_ob_GMT7 = convertTimezone(date_ob_UTC, "Asia/Bangkok");
+  let hours = date_ob_GMT7.getHours();
+  if (hours === 2) {
+    return false;
+  }
+  return true;
+};
+
 const getGoldPrice = async () => {
   try {
     const response = await axios.get(
@@ -168,4 +178,5 @@ module.exports = {
   getGoldPrice: getGoldPrice,
   broadcast: broadcast,
   reply: reply,
+  checkAvailableTime: checkAvailableTime,
 };

@@ -4,7 +4,12 @@ const axios = require("axios");
 const app = express();
 const port = process.env.PORT || 4000;
 
-const { getGoldPrice, broadcast, reply } = require("./helpful_functions");
+const {
+  getGoldPrice,
+  broadcast,
+  reply,
+  checkAvailableTime,
+} = require("./helpful_functions");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -15,8 +20,11 @@ const goldPriceNoti = setInterval(async () => {
 }, 900000);
 
 const pingAppEvery29mins = setInterval(async () => {
-  await axios.get("https://gold-hsh-line-chatbot.herokuapp.com/webhook");
-  console.log("...ping!");
+  let isOpen = checkAvailableTime();
+  if (isOpen) {
+    await axios.get("https://gold-hsh-line-chatbot.herokuapp.com/webhook");
+    console.log("...ping!");
+  }
 }, 1740000);
 
 app.get("/webhook", (req, res) => {
