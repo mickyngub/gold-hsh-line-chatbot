@@ -60,7 +60,9 @@ const broadcast = (goldPrice) => {
       body: body,
     },
     (err, res, body) => {
-      console.log("status = " + res.statusCode);
+      console.log(
+        "status = " + res.statusCode + "Successfully broadcasting gold price..."
+      );
     }
   );
 };
@@ -121,7 +123,11 @@ const reply = (reply_token, msg) => {
       body: body,
     },
     (err, res, body) => {
-      console.log("status = " + res.statusCode);
+      console.log(
+        "status = " +
+          res.statusCode +
+          "successfully sending real-time hsh gold price...."
+      );
     }
   );
 };
