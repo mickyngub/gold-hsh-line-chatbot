@@ -62,10 +62,10 @@ const broadcast = (goldPrice, type) => {
   let textMsg;
   if (type === "alertUP") {
     textMsg =
-      "💚TESTING TESTING TESTING HSH Price has gone UP more than 10 baht in the last 30 secs!!!...";
+      "💚TESTING TESTING TESTING HSH Gold Price has gone UP more than 10 baht in the last 30 secs!!!...";
   } else if (type === "alertDOWN") {
     textMsg =
-      "💔TESTING TESTING TESTING HSH Price has gone DOWN more than 10 baht in the last 30 secs!!!...";
+      "💔TESTING TESTING TESTING HSH Gold Price has gone DOWN more than 10 baht in the last 30 secs!!!...";
   } else {
     textMsg = "📢TESTING TESTING TESTING HSH Gold Price Every 30 secs🥇...";
   }
@@ -78,7 +78,7 @@ const broadcast = (goldPrice, type) => {
         }\r\nSell Price is ${goldPrice.Sell}`,
       },
     ],
-    notificationDisabled: true,
+    notificationDisabled: `${type === "alertUP" || "alertDOWN" ? false : true}`,
   });
   request.post(
     {
