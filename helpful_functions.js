@@ -73,6 +73,7 @@ const reply = (reply_token, msg) => {
     Authorization: "Bearer " + process.env.CHANNEL_ACCESS_TOKEN,
   };
   let body;
+  let log;
   if (msg === "helping") {
     body = JSON.stringify({
       replyToken: reply_token,
@@ -104,6 +105,7 @@ const reply = (reply_token, msg) => {
         },
       ],
     });
+    log = " successfully sending real-time hsh gold price....";
   } else {
     body = JSON.stringify({
       replyToken: reply_token,
@@ -114,6 +116,7 @@ const reply = (reply_token, msg) => {
         },
       ],
     });
+    log = " successfully sending help commands....";
   }
 
   request.post(
@@ -123,11 +126,7 @@ const reply = (reply_token, msg) => {
       body: body,
     },
     (err, res, body) => {
-      console.log(
-        "status = " +
-          res.statusCode +
-          "successfully sending real-time hsh gold price...."
-      );
+      console.log("status = " + res.statusCode + log);
     }
   );
 };
