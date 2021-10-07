@@ -42,8 +42,8 @@ const goldPriceNoti15mins = setInterval(async () => {
 
 //prevent Heroku dyno from sleeping
 const pingAppEvery29mins = setInterval(async () => {
-  let isOpen = checkAvailableTime();
-  if (isOpen) {
+  let isHSHOpen = checkAvailableTime();
+  if (isHSHOpen) {
     await axios.get("https://gold-hsh-line-chatbot.herokuapp.com/webhook");
     console.log("...ping!");
   }
