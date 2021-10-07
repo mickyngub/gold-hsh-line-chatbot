@@ -78,7 +78,7 @@ const broadcast = (goldPrice, type) => {
         }\r\nSell Price is ${goldPrice.Sell}`,
       },
     ],
-    notificationDisabled: `${type === "alertUP" || "alertDOWN" ? false : true}`,
+    notificationDisabled: true,
   });
   request.post(
     {
