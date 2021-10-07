@@ -14,11 +14,33 @@ const {
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const goldPriceNoti = setInterval(async () => {
-  let goldPrice = await getGoldPrice();
-  broadcast(goldPrice);
-}, 900000);
+let intPreviousBuyGoldPrice;
+const setPreviousGoldPrice = async () => {
+  previousGoldPrice = await getGoldPrice();
+  intPreviousBuyGoldPrice = parseInt(
+    previousGoldPrice.Buy.replace(/,/g, ""),
+    10
+  );
+};
 
+const goldPriceNoti15mins = setInterval(async () => {
+  let goldPrice = await getGoldPrice();
+  let intBuyGoldPrice = parseInt(goldPrice.Buy.replace(/,/g, ""), 10);
+  let differenceBuyPrice = intBuyGoldPrice - intPreviousBuyGoldPrice;
+  if (differenceBuyPrice >= 10) {
+    broadcast(goldPrice, "alertUP");
+    console.log("broadcast alertUP...");
+  } else if (differenceBuyPrice <= -10) {
+    broadcast(goldPrice, "alertDOWN");
+    console.log("broadcast alertDOWN...");
+  } else {
+    broadcast(goldPrice);
+    console.log("normal broadcast...");
+  }
+  intPreviousBuyGoldPrice = intBuyGoldPrice;
+}, 10000);
+
+//prevent Heroku dyno from sleeping
 const pingAppEvery29mins = setInterval(async () => {
   let isOpen = checkAvailableTime();
   if (isOpen) {
@@ -47,7 +69,8 @@ app.post("/webhook", async (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log("listening on port...", port);
-  getGoldPrice();
+  await setPreviousGoldPrice();
+  console.log(parseInt(previousGoldPrice.Buy.replace(/,/g, ""), 10));
 });

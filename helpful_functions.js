@@ -31,6 +31,7 @@ const getTime = () => {
   return dateString;
 };
 
+//Check whether it's 2am or not, if it is then returns true, else return false
 const checkAvailableTime = () => {
   let date_ob_UTC = new Date();
   let date_ob_GMT7 = convertTimezone(date_ob_UTC, "Asia/Bangkok");
@@ -53,16 +54,26 @@ const getGoldPrice = async () => {
   }
 };
 
-const broadcast = (goldPrice) => {
+const broadcast = (goldPrice, type) => {
   let headers = {
     "Content-Type": "application/json",
     Authorization: "Bearer " + process.env.CHANNEL_ACCESS_TOKEN,
   };
-  let body = JSON.stringify({
+  let textMsg;
+  if (type === "alertUP") {
+    textMsg =
+      "💚TESTING TESTING TESTING HSH Price has gone UP more than 10 baht in the last 10 secs!!!...";
+  } else if (type === "alertDOWN") {
+    textMsg =
+      "💔TESTING TESTING TESTING HSH Price has gone DOWN more than 10 baht in the last 10 secs!!!...";
+  } else {
+    textMsg = "📢TESTING TESTING TESTING HSH Gold Price Every 10 secs🥇...";
+  }
+  body = JSON.stringify({
     messages: [
       {
         type: "text",
-        text: `📢HSH Gold Price Every 15 mins🥇... \r\nCurrent Time is ${getTime()}\r\nBuy Price is ${
+        text: `${textMsg}\r\nCurrent Time is ${getTime()}\r\nBuy Price is ${
           goldPrice.Buy
         }\r\nSell Price is ${goldPrice.Sell}`,
       },
@@ -113,12 +124,12 @@ const reply = (reply_token, msg) => {
           text: `🤖GOLD_HSH_PRICE_BOT by @mickyngub has 2 functionalities
                     \r\n1. User can type "gold" in the chat to get the current HSH 96.50 Gold price⛽
                     \r\n2. The bot will send the HSH 96.50 Gold price with no push notification every 15 minutes📢
-                    \r\nFor further information please contact me @mickyngub in Twitter
+                    \r\nFor further information please contact me via Line - micky_ngub
       
                     \r\n🤖GOLD_HSH_PRICE_BOT by @mickyngub มีสองฟังก์ชั่นหลัก
                     \r\n1. คุณสามารถพิมพ์คำว่า "gold" ลงในช่องแชทเพื่อเชคราคาทองฮั่วเซ่งเฮง 96.50% ในขณะนี้⛽
                     \r\n3. บอทจะคอยเชคและส่งราคาทองฮั่วเซ่งเฮง 96.50% ให้คุณทุกๆสิบห้านาที โดยบอทจะส่งข้อความแจ้งเตือนแบบไม่มีเสียง📢
-                    \r\nหากมีคำถามเพิ่มเติมสามารถติดต่อผมได้ที่ @mickyngub ในทวิตเตอร์
+                    \r\nหากมีคำถามเพิ่มเติมสามารถติดต่อผมได้ที่ Line - micky_ngub 
                     `,
         },
       ],
