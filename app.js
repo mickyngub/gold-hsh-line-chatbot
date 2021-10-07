@@ -19,6 +19,9 @@ const pingAppEvery29mins = setInterval(() => {
   console.log("...ping!");
 }, 1740000);
 
+app.get("/webhook", (req, res) => {
+  res.send("...ping!!!");
+});
 app.post("/webhook", async (req, res) => {
   let reply_token = req.body.events[0].replyToken;
   switch (req.body.events[0].message.text.toLowerCase()) {
