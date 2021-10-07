@@ -28,6 +28,7 @@ app.post("/webhook", async (req, res) => {
       break;
     case "help":
       reply(reply_token, "helping");
+      break;
     default:
       reply(reply_token, req.body.events[0].message.text);
       break;
