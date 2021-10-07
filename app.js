@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 const goldPriceNoti = setInterval(async () => {
   let goldPrice = await getGoldPrice();
   broadcast(goldPrice);
-}, 300000);
+}, 900000);
 
 const pingAppEvery29mins = setInterval(() => {
   axios.get("https://gold-hsh-line-chatbot.herokuapp.com/webhook");
