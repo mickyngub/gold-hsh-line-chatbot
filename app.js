@@ -14,8 +14,8 @@ const goldPriceNoti = setInterval(async () => {
   broadcast(goldPrice);
 }, 900000);
 
-const pingAppEvery29mins = setInterval(() => {
-  axios.get("https://gold-hsh-line-chatbot.herokuapp.com/webhook");
+const pingAppEvery29mins = setInterval(async () => {
+  await axios.get("https://gold-hsh-line-chatbot.herokuapp.com/webhook");
   console.log("...ping!");
 }, 1740000);
 
