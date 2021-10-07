@@ -60,9 +60,23 @@ const broadcast = (goldPrice) => {
       body: body,
     },
     (err, res, body) => {
-      console.log(
-        "status = " + res.statusCode + "Successfully broadcasting gold price..."
-      );
+      switch (res.statusCode) {
+        case 200:
+          console.log(
+            "status = " +
+              res.statusCode +
+              " Successfully broadcasting gold price..."
+          );
+          break;
+        case 400:
+          console.log("status = " + res.statusCode + " bad request");
+          console.log("errors...", err);
+          break;
+        default:
+          console.log("unknown error occurred ", res.statusCode);
+          console.log("errors...", err);
+          break;
+      }
     }
   );
 };
@@ -127,7 +141,19 @@ const reply = (reply_token, msg) => {
       body: body,
     },
     (err, res, body) => {
-      console.log("status = " + res.statusCode + log);
+      switch (res.statusCode) {
+        case 200:
+          console.log("status = " + res.statusCode + log);
+          break;
+        case 400:
+          console.log("status = " + res.statusCode + " bad request");
+          console.log("errors...", err);
+          break;
+        default:
+          console.log("unknown error occurred ", res.statusCode);
+          console.log("errors...", err);
+          break;
+      }
     }
   );
 };
