@@ -12,8 +12,8 @@ const getTime = () => {
   let date = ("0" + date_ob_GMT7.getDate()).slice(-2);
   let month = ("0" + (date_ob_GMT7.getMonth() + 1)).slice(-2);
   let year = date_ob_GMT7.getFullYear();
-  let hours = date_ob_GMT7.getHours();
-  let minutes = date_ob_GMT7.getMinutes();
+  let hours = ("0" + date_ob_GMT7.getHours()).slice(-2);
+  let minutes = ("0" + date_ob_GMT7.getMinutes()).slice(-2);
   let seconds = ("0" + date_ob_GMT7.getSeconds()).slice(-2);
   const dateString =
     year +
@@ -62,12 +62,12 @@ const broadcast = (goldPrice, type) => {
   let textMsg;
   if (type === "alertUP") {
     textMsg =
-      "💚TESTING TESTING TESTING HSH Price has gone UP more than 10 baht in the last 10 secs!!!...";
+      "💚TESTING TESTING TESTING HSH Price has gone UP more than 10 baht in the last 30 secs!!!...";
   } else if (type === "alertDOWN") {
     textMsg =
-      "💔TESTING TESTING TESTING HSH Price has gone DOWN more than 10 baht in the last 10 secs!!!...";
+      "💔TESTING TESTING TESTING HSH Price has gone DOWN more than 10 baht in the last 30 secs!!!...";
   } else {
-    textMsg = "📢TESTING TESTING TESTING HSH Gold Price Every 10 secs🥇...";
+    textMsg = "📢TESTING TESTING TESTING HSH Gold Price Every 30 secs🥇...";
   }
   body = JSON.stringify({
     messages: [

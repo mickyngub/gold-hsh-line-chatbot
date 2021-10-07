@@ -38,7 +38,7 @@ const goldPriceNoti15mins = setInterval(async () => {
     console.log("normal broadcast...");
   }
   intPreviousBuyGoldPrice = intBuyGoldPrice;
-}, 10000);
+}, 30000);
 
 //prevent Heroku dyno from sleeping
 const pingAppEvery29mins = setInterval(async () => {
