@@ -24,20 +24,22 @@ const setPreviousGoldPrice = async () => {
 };
 
 const goldPriceNoti30mins = setInterval(async () => {
-  let goldPrice = await getGoldPrice();
-  let intBuyGoldPrice = parseInt(goldPrice.Buy.replace(/,/g, ""), 10);
-  let differenceBuyPrice = intBuyGoldPrice - intPreviousBuyGoldPrice;
-  if (differenceBuyPrice >= 30) {
-    broadcast(goldPrice, "alertUP");
-    console.log("broadcast alertUP...");
-  } else if (differenceBuyPrice <= -30) {
-    broadcast(goldPrice, "alertDOWN");
-    console.log("broadcast alertDOWN...");
-  } else {
-    broadcast(goldPrice);
-    console.log("normal broadcast...");
+  if (checkAvailableTime) {
+    let goldPrice = await getGoldPrice();
+    let intBuyGoldPrice = parseInt(goldPrice.Buy.replace(/,/g, ""), 10);
+    let differenceBuyPrice = intBuyGoldPrice - intPreviousBuyGoldPrice;
+    if (differenceBuyPrice >= 30) {
+      broadcast(goldPrice, "alertUP");
+      console.log("broadcast alertUP...");
+    } else if (differenceBuyPrice <= -30) {
+      broadcast(goldPrice, "alertDOWN");
+      console.log("broadcast alertDOWN...");
+    } else {
+      broadcast(goldPrice);
+      console.log("normal broadcast...");
+    }
+    intPreviousBuyGoldPrice = intBuyGoldPrice;
   }
-  intPreviousBuyGoldPrice = intBuyGoldPrice;
 }, 1800000);
 
 app.get("/webhook", (req, res) => {

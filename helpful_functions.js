@@ -5,6 +5,9 @@ const { text } = require("body-parser");
 const convertTimezone = (date, tzString) => {
   return new Date(date.toLocaleString("en-US", { timeZone: tzString }));
 };
+const getDayOfTheWeek = (date) => {
+  return date.toLocaleString("en-US", { weekday: long });
+};
 
 const getTime = () => {
   //This depends on the server, since it runs on HEROKU the time is UTC and needs to convert to GMT+7
@@ -37,7 +40,16 @@ const checkAvailableTime = () => {
   let date_ob_UTC = new Date();
   let date_ob_GMT7 = convertTimezone(date_ob_UTC, "Asia/Bangkok");
   let hours = date_ob_GMT7.getHours();
-  if (hours === 2) {
+  let dayOfTheWeek = getDayOfTheWeek(date_ob_GMT7);
+  if (
+    dayOfTheWeek === "Saturday" ||
+    dayOfTheWeek === "Sunday" ||
+    hours === 2 ||
+    hours === 3 ||
+    hours === 4 ||
+    hours === 5 ||
+    hours === 6
+  ) {
     return false;
   }
   return true;
