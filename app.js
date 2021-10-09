@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const axios = require("axios");
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -43,22 +42,6 @@ const goldPriceNoti30mins = setInterval(async () => {
 
 app.get("/webhook", (req, res) => {
   res.send("...ping!!!");
-});
-app.post("/webhook", async (req, res) => {
-  let reply_token = req.body.events[0].replyToken;
-  switch (req.body.events[0].message.text.toLowerCase()) {
-    case "gold":
-      let goldPrice = await getGoldPrice();
-      reply(reply_token, goldPrice);
-      break;
-    case "help":
-      reply(reply_token, "helping");
-      break;
-    default:
-      reply(reply_token, req.body.events[0].message.text);
-      break;
-  }
-  res.sendStatus(200);
 });
 
 app.listen(port, async () => {

@@ -154,89 +154,10 @@ const broadcast = (goldPrice, type) => {
   );
 };
 
-const reply = (reply_token, msg) => {
-  let headers = {
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + process.env.CHANNEL_ACCESS_TOKEN,
-  };
-  let body;
-  let log;
-  if (msg === "helping") {
-    body = JSON.stringify({
-      replyToken: reply_token,
-      messages: [
-        {
-          type: "text",
-          text: `🤖GOLD_HSH_PRICE_BOT by @mickyngub has 2 functionalities
-                    \r\n1. User can type "gold" in the chat to get current HSH 96.50 Gold price⛽
-                    \r\n2. Bot will send HSH 96.50 Gold price with no push notification every 15 minutes📢
-                    \r\n3. If price has gone up or down more than or equal to 50 baht, comparing to the previous 15 minutes. Bot will automatically notifies you.
-                    \r\nFor further information please contact me via Line - micky_ngub
-      
-                    \r\n🤖GOLD_HSH_PRICE_BOT by @mickyngub มีสองฟังก์ชั่นหลัก
-                    \r\n1. คุณสามารถพิมพ์คำว่า "gold" ลงในช่องแชทเพื่อเชคราคาทองฮั่วเซ่งเฮง 96.50% ในขณะนี้⛽
-                    \r\n2. บอทจะคอยเชคและส่งราคาทองฮั่วเซ่งเฮง 96.50% ให้คุณทุกๆสิบห้านาที โดยบอทจะส่งข้อความแจ้งเตือนแบบไม่มีเสียง📢
-                    \r\n3. หากราคาปัจจุบันเมื่อเทียบกับสิบห้านาทีที่ผ่านมามีการเปลี่ยนแปลงมากกว่าหรือเท่ากับ 50 บาท บอทจะส่งข้อความแจ้งเตือน
-                    \r\nหากมีคำถามเพิ่มเติมสามารถติดต่อผมได้ที่ Line - micky_ngub 
-                    `,
-        },
-      ],
-    });
-    log = " successfully sending help instructions....";
-  } else if (msg.Buy) {
-    body = JSON.stringify({
-      replyToken: reply_token,
-      messages: [
-        {
-          type: "text",
-          text: `🥇Current HSH 96.50 Gold Price... \r\nCurrent Time is ${getTime()}\r\n\r\nBuy Price is ${
-            msg.Buy
-          } \r\nSell Price is ${msg.Sell} `,
-        },
-      ],
-    });
-    log = " successfully sending real-time hsh gold price....";
-  } else {
-    body = JSON.stringify({
-      replyToken: reply_token,
-      messages: [
-        {
-          type: "text",
-          text: `${msg} is not a command, please type "help" to see all the commands`,
-        },
-      ],
-    });
-    log = " successfully sending help commands....";
-  }
-
-  request.post(
-    {
-      url: "https://api.line.me/v2/bot/message/reply",
-      headers: headers,
-      body: body,
-    },
-    (err, res, body) => {
-      switch (res.statusCode) {
-        case 200:
-          console.log("status = " + res.statusCode + log);
-          break;
-        case 400:
-          console.log("status = " + res.statusCode + " bad request");
-          console.log("errors...", err);
-          break;
-        default:
-          console.log("unknown error occurred ", res.statusCode);
-          console.log("errors...", err);
-          break;
-      }
-    }
-  );
-};
 module.exports = {
   getTime: getTime,
   getGoldPrice: getGoldPrice,
   broadcast: broadcast,
-  reply: reply,
   checkAvailableTime: checkAvailableTime,
   broadcastMsgToUser: broadcastMsgToUser,
 };
