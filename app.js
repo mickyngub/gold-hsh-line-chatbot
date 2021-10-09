@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 4000;
-
+let broadcastCounter = 0;
 const {
   getGoldPrice,
   broadcast,
@@ -39,6 +39,8 @@ const goldPriceNoti30mins = setInterval(async () => {
       console.log("normal broadcast...");
     }
     intPreviousBuyGoldPrice = intBuyGoldPrice;
+    broadcastCounter += 1;
+    console.log("Broadcastcounter is ", broadcastCounter);
   }
 }, 1800000);
 
