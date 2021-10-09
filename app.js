@@ -10,6 +10,7 @@ const {
   reply,
   checkAvailableTime,
   broadcastMsgToUser,
+  broadcastLineNotify,
 } = require("./helpful_functions");
 
 app.use(express.urlencoded({ extended: false }));
@@ -23,6 +24,23 @@ const setPreviousGoldPrice = async () => {
     10
   );
 };
+
+const goldPriceNoti15secs_lineNotify = setInterval(async () => {
+  let goldPrice = await getGoldPrice();
+  let intBuyGoldPrice = parseInt(goldPrice.Buy.replace(/,/g, ""), 10);
+  let differenceBuyPrice = intBuyGoldPrice - intPreviousBuyGoldPrice;
+  if (differenceBuyPrice >= 10) {
+    broadcastLineNotify(goldPrice, "alertUP");
+    console.log("broadcast alertUP...");
+  } else if (differenceBuyPrice <= -10) {
+    broadcastLineNotify(goldPrice, "alertDOWN");
+    console.log("broadcast alertDOWN...");
+  } else {
+    broadcastLineNotify(goldPrice);
+    console.log("normal broadcast...");
+  }
+  intPreviousBuyGoldPrice = intBuyGoldPrice;
+}, 5000);
 
 const goldPriceNoti15mins = setInterval(async () => {
   let goldPrice = await getGoldPrice();
@@ -72,6 +90,7 @@ app.post("/webhook", async (req, res) => {
 
 app.listen(port, async () => {
   console.log("listening on port...", port);
+  //set initial gold price to compare with future price
   await setPreviousGoldPrice();
   // broadcastMsgToUser(
   //   "Sorry for the inconvenience, the testing was done. One more functionality has been added. If the price increase or decrease more than 50 baht in the past 15 minutes, the bot will automatically alert users"

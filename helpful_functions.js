@@ -1,4 +1,6 @@
 const request = require("request");
+require("dotenv").config();
+
 const axios = require("axios");
 const { text } = require("body-parser");
 
@@ -95,6 +97,37 @@ const broadcastMsgToUser = (msg) => {
       }
     }
   );
+};
+
+const broadcastLineNotify = (goldPrice, type) => {
+  let headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    Authorization: "Bearer " + process.env.LINE_NOTIFY_TOKEN,
+  };
+  console.log(process.env.LINE_NOTIFY_TOKEN);
+  let textMsg;
+  let notiBoolean = true;
+  if (type === "alertUP") {
+    textMsg =
+      "💚HSH Gold Price has gone UP more than 50 baht in the last 15 mins!!!...";
+    notiBoolean = false;
+  } else if (type === "alertDOWN") {
+    textMsg =
+      "💔HSH Gold Price has gone DOWN more than 50 baht in the last 15 mins!!!...";
+    notiBoolean = false;
+  } else {
+    textMsg = "📢HSH Gold Price Every 15 mins🥇...";
+  }
+  body = new URLSearchParams({
+    message: `${textMsg}\r\nCurrent Time is ${getTime()}\r\nBuy Price is ${
+      goldPrice.Buy
+    }\r\nSell Price is ${goldPrice.Sell}`,
+
+    notificationDisabled: notiBoolean,
+  });
+  let response = axios.post("https://notify-api.line.me/api/notify", body, {
+    headers: headers,
+  });
 };
 
 const broadcast = (goldPrice, type) => {
@@ -239,4 +272,5 @@ module.exports = {
   reply: reply,
   checkAvailableTime: checkAvailableTime,
   broadcastMsgToUser: broadcastMsgToUser,
+  broadcastLineNotify: broadcastLineNotify,
 };
