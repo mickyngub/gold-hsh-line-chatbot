@@ -118,14 +118,14 @@ const broadcast = (goldPrice, type) => {
   let notiBoolean = true;
   if (type === "alertUP") {
     textMsg =
-      "💚HSH Gold Price has gone UP more than 50 baht in the last 15 mins!!!...";
+      "💚HSH Gold Price has gone UP more than 30 baht in the last 30 mins!!!...";
     notiBoolean = false;
   } else if (type === "alertDOWN") {
     textMsg =
-      "💔HSH Gold Price has gone DOWN more than 50 baht in the last 15 mins!!!...";
+      "💔HSH Gold Price has gone DOWN more than 30 baht in the last 30 mins!!!...";
     notiBoolean = false;
   } else {
-    textMsg = "📢HSH Gold Price Every 15 mins🥇...";
+    textMsg = "📢HSH Gold Price Every 30 mins🥇...";
   }
   body = JSON.stringify({
     messages: [
