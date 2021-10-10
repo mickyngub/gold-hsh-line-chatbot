@@ -25,7 +25,7 @@ const setPreviousGoldPrice = async () => {
 };
 
 const goldPriceNoti30mins = setInterval(async () => {
-  if (checkAvailableTime) {
+  if (checkAvailableTime()) {
     let goldPrice = await getGoldPrice();
     let intBuyGoldPrice = parseInt(goldPrice.Buy.replace(/,/g, ""), 10);
     let differenceBuyPrice = intBuyGoldPrice - intPreviousBuyGoldPrice;
