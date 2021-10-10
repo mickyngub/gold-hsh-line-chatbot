@@ -41,7 +41,7 @@ const goldPriceNoti30mins = setInterval(async () => {
     }
     intPreviousBuyGoldPrice = intBuyGoldPrice;
     broadcastCounter += 1;
-    console.log(`${getTime()} Broadcastcounter is ${broadcastCounter}`);
+    console.log(`${getTime()} - Gold Broadcastcounter is ${broadcastCounter}`);
   }
 }, 1800000);
 
@@ -52,6 +52,8 @@ app.get("/webhook", (req, res) => {
 app.listen(port, async () => {
   console.log("listening on port...", port);
   await setPreviousGoldPrice();
+  let initialBroadcastGoldPrice = await getGoldPrice();
+  broadcast(initialBroadcastGoldPrice);
   // broadcastMsgToUser(
   //   "Sorry for the inconvenience, the testing was done. One more functionality has been added. If the price increase or decrease more than 50 baht in the past 15 minutes, the bot will automatically alert users"
   // );
