@@ -5,6 +5,7 @@ const port = process.env.PORT || 4000;
 let broadcastCounter = 0;
 const {
   getGoldPrice,
+  getTime,
   broadcast,
   reply,
   checkAvailableTime,
@@ -40,7 +41,7 @@ const goldPriceNoti30mins = setInterval(async () => {
     }
     intPreviousBuyGoldPrice = intBuyGoldPrice;
     broadcastCounter += 1;
-    console.log("Broadcastcounter is ", broadcastCounter);
+    console.log(`${getTime()} Broadcastcounter is ${broadcastCounter}`);
   }
 }, 1800000);
 
