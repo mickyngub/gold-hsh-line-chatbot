@@ -6,7 +6,7 @@ const convertTimezone = (date, tzString) => {
   return new Date(date.toLocaleString("en-US", { timeZone: tzString }));
 };
 const getDayOfTheWeek = (date) => {
-  return date.toLocaleString("en-US", { weekday: long });
+  return date.toLocaleString("en-US", { weekday: "long" });
 };
 
 const getTime = () => {
